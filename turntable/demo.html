@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>turntable demo</title>
+  
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="turntable.js"></script>
+  
+<style>
+@import url("turntable.css");	
+
+#container {
+	width: 800px;
+	margin: 0 auto;
+}
+
+#top {
+	text-align: center;
+}
+	
+#turntable {
+	border: solid 1px;
+	margin: 0 auto;
+}
+</style>
+
+<script>
+var turntable;
+	
+function getSpriteUrl(url) {
+	return "http://sketchup.google.com/3dwarehouse/download?" + url.substr(url.indexOf("mid="), 36) + "&rtyp=smontage";
+}
+
+function load() {
+	turntable.load(getSpriteUrl($("#url").val()), 36, 400, 300);
+}
+
+$(function() {
+	var url = $("a").first().attr("href");
+	$("#url").attr("value", url);
+	turntable = new Turntable($("#turntable"), getSpriteUrl(url), 36, 400, 300); 
+	$("a").click(function(e){
+		e.preventDefault();
+		$("#url").val(this.href);
+		turntable.load(getSpriteUrl(this.href), 36, 400, 300);
+	}); 
+});
+</script>
+
+</head>
+
+<body>
+
+<div id="container">
+	<div id="top">
+		<h2>Turntable for 3D models from Sketchup 3D Warehouse</h2>
+		Click on a link below or enter your own 3D model URL from Sketchup 3D Warehouse:
+		<br><a href="http://sketchup.google.com/3dwarehouse/details?mid=c5fa9fa9f209780aaa261f49f4209a7d">Saint Basil's Cathedral (Moscow)</a>
+		<br><a href="http://sketchup.google.com/3dwarehouse/details?mid=3c736aa28b4329a54c7544145ac6119d">The Eiffel Tower (Paris)</a>
+		<br><a href="http://sketchup.google.com/3dwarehouse/details?mid=32e795e8239e814512806298ccb0022c">German Bundestag (Berlin)</a>
+		<br><input id="url" type="text" size="80"/><button onclick="load();">load</button>
+	</div>
+	<div id="turntable"></div>
+</div>
+
+</body>
+
+</html>
+
